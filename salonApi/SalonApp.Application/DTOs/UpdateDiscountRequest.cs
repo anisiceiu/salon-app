@@ -1,0 +1,16 @@
+using SalonApp.Domain.Enums;
+
+namespace SalonApp.Application.DTOs;
+
+public class UpdateDiscountRequest
+{
+    public string Code { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public DiscountType DiscountType { get; set; }
+    public decimal DiscountValue { get; set; }
+    public decimal MinOrderValue { get; set; }
+    public DateTime ValidFrom { get; set; }
+    public DateTime ValidUntil { get; set; }
+    public bool IsActive { get; set; }
+    public int? MaxUses { get; set; }
+}

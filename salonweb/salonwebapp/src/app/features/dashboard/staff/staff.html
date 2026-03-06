@@ -1,0 +1,304 @@
+ <!-- Date Navigation -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="mb-0">Today's Schedule</h2>
+                        <p class="text-muted mb-0">Wednesday, March 4, 2026</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-secondary">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary">
+                            Today
+                        </button>
+                        <button class="btn btn-outline-secondary">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#blockTimeModal">
+                            <i class="fas fa-ban me-2"></i>Block Time
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary bg-opacity-10">
+                                <i class="fas fa-calendar-check text-primary"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Today's Appointments</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success bg-opacity-10">
+                                <i class="fas fa-check-circle text-success"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value">5</div>
+                                <div class="stat-label">Completed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning bg-opacity-10">
+                                <i class="fas fa-clock text-warning"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">Remaining</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="card-custom mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-calendar-day me-2"></i>Appointments</span>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-light active">List View</button>
+                            <button class="btn btn-sm btn-light">Calendar View</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-custom mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Client</th>
+                                        <th>Service</th>
+                                        <th>Duration</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Completed -->
+                                    <tr>
+                                        <td>
+                                            <strong>9:00 AM</strong>
+                                            <small class="d-block text-muted">- 9:45 AM</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop" alt="Client" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <div>
+                                                    <strong>Amanda Roberts</strong>
+                                                    <small class="d-block text-muted">New Client</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>Haircut & Style</strong>
+                                            <small class="d-block text-muted">$45</small>
+                                        </td>
+                                        <td>45 min</td>
+                                        <td><span class="status-badge status-completed">Completed</span></td>
+                                        <td>-</td>
+                                    </tr>
+                                    <!-- Completed -->
+                                    <tr>
+                                        <td>
+                                            <strong>10:00 AM</strong>
+                                            <small class="d-block text-muted">- 11:30 AM</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop" alt="Client" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <div>
+                                                    <strong>James Thompson</strong>
+                                                    <small class="d-block text-muted">Regular</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>Hair Coloring</strong>
+                                            <small class="d-block text-muted">$85</small>
+                                        </td>
+                                        <td>90 min</td>
+                                        <td><span class="status-badge status-completed">Completed</span></td>
+                                        <td>-</td>
+                                    </tr>
+                                    <!-- In Progress -->
+                                    <tr class="table-warning">
+                                        <td>
+                                            <strong>12:00 PM</strong>
+                                            <small class="d-block text-muted">- 12:45 PM</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop" alt="Client" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <div>
+                                                    <strong>Jessica Martinez</strong>
+                                                    <small class="d-block text-muted">VIP</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>Keratin Treatment</strong>
+                                            <small class="d-block text-muted">$150</small>
+                                        </td>
+                                        <td>45 min</td>
+                                        <td><span class="status-badge status-confirmed">In Progress</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-success" onclick="updateStatus(3, 'completed')">
+                                                <i class="fas fa-check me-1"></i>Complete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Upcoming -->
+                                    <tr>
+                                        <td>
+                                            <strong>1:30 PM</strong>
+                                            <small class="d-block text-muted">- 2:15 PM</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop" alt="Client" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <div>
+                                                    <strong>Robert Brown</strong>
+                                                    <small class="d-block text-muted">Regular</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>Haircut & Style</strong>
+                                            <small class="d-block text-muted">$45</small>
+                                        </td>
+                                        <td>45 min</td>
+                                        <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(4, 'completed')">
+                                                        <i class="fas fa-check me-2"></i>Mark Completed
+                                                    </a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(4, 'no-show')">
+                                                        <i class="fas fa-user-times me-2"></i>No Show
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Upcoming -->
+                                    <tr>
+                                        <td>
+                                            <strong>3:00 PM</strong>
+                                            <small class="d-block text-muted">- 3:45 PM</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop" alt="Client" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <div>
+                                                    <strong>Emily White</strong>
+                                                    <small class="d-block text-muted">New Client</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>Haircut & Style</strong>
+                                            <small class="d-block text-muted">$45</small>
+                                        </td>
+                                        <td>45 min</td>
+                                        <td><span class="status-badge status-pending">Pending</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(5, 'completed')">
+                                                        <i class="fas fa-check me-2"></i>Mark Completed
+                                                    </a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(5, 'no-show')">
+                                                        <i class="fas fa-user-times me-2"></i>No Show
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- Upcoming -->
+                                    <tr>
+                                        <td>
+                                            <strong>4:30 PM</strong>
+                                            <small class="d-block text-muted">- 5:30 PM</small>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop" alt="Client" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <div>
+                                                    <strong>Michael Lee</strong>
+                                                    <small class="d-block text-muted">Regular</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <strong>Hair Coloring</strong>
+                                            <small class="d-block text-muted">$85</small>
+                                        </td>
+                                        <td>60 min</td>
+                                        <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(6, 'completed')">
+                                                        <i class="fas fa-check me-2"></i>Mark Completed
+                                                    </a></li>
+                                                    <li><a class="dropdown-item" href="#" onclick="updateStatus(6, 'no-show')">
+                                                        <i class="fas fa-user-times me-2"></i>No Show
+                                                    </a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blocked Time Slots -->
+                <div class="card-custom">
+                    <div class="card-header">
+                        <i class="fas fa-ban me-2"></i>Blocked Time Slots
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                                    <div>
+                                        <strong>Lunch Break</strong>
+                                        <small class="d-block text-muted">11:30 AM - 12:00 PM</small>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                                    <div>
+                                        <strong>Personal</strong>
+                                        <small class="d-block text-muted">6:00 PM - 7:00 PM</small>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

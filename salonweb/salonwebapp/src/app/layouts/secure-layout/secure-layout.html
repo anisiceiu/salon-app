@@ -1,0 +1,82 @@
+  <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-spa me-2"></i>Luxe Salon
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-services.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-staff.html">Staff</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin-reports.html">Reports</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <div class="dropdown">
+                            <button class="btn btn-light rounded-pill px-4 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-2"></i>Admin
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Logout</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-5 pt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar py-3">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-cog text-primary-custom" style="font-size: 3rem;"></i>
+                    <h6 class="mt-2 mb-0">Admin Panel</h6>
+                    <small class="text-muted">Luxe Salon</small>
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="admin-dashboard.html">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="admin-services.html">
+                        <i class="fas fa-concierge-bell"></i> Services
+                    </a>
+                    <a class="nav-link" href="admin-staff.html">
+                        <i class="fas fa-users"></i> Staff
+                    </a>
+                    <a class="nav-link" href="admin-reports.html">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-calendar-alt"></i> Schedule
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-percentage"></i> Discounts
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>

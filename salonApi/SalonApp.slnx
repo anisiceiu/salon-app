@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SalonApp.API/SalonApp.API.csproj" />
+  <Project Path="SalonApp.Application/SalonApp.Application.csproj" />
+  <Project Path="SalonApp.Domain/SalonApp.Domain.csproj" />
+  <Project Path="SalonApp.Infrastructure/SalonApp.Infrastructure.csproj" />
+</Solution>

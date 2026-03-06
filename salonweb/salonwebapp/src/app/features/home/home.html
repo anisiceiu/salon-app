@@ -1,0 +1,409 @@
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="hero-title fade-in">Experience True Beauty</h1>
+                    <p class="hero-subtitle fade-in">Discover premium salon services tailored to your unique style. Our expert stylists are ready to transform your look.</p>
+                    <div class="fade-in" style="animation-delay: 0.2s;">
+                        <a href="customer-booking.html" class="btn btn-light btn-lg rounded-pill px-5 me-3">
+                            <i class="fas fa-calendar-alt me-2"></i>Book Appointment
+                        </a>
+                        <a [routerLink]="[]" fragment="services" class="btn btn-outline-light btn-lg rounded-pill px-5">
+                            Explore Services
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-5 text-center d-none d-lg-block">
+                    <div class="hero-image position-relative">
+                        <i class="fas fa-spa text-white" style="font-size: 15rem; opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-custom text-center p-4">
+                        <div class="card-icon bg-primary bg-opacity-10 text-primary-custom mx-auto">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h5>Easy Online Booking</h5>
+                        <p class="text-muted mb-0">Book your appointment anytime, anywhere with our simple scheduling system.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom text-center p-4">
+                        <div class="card-icon bg-success bg-opacity-10 text-success mx-auto">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h5>Expert Stylists</h5>
+                        <p class="text-muted mb-0">Our team of certified professionals delivers exceptional results every time.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom text-center p-4">
+                        <div class="card-icon bg-info bg-opacity-10 text-info mx-auto">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h5>Personalized Service</h5>
+                        <p class="text-muted mb-0">We tailor every service to your unique needs and preferences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5 bg-cream">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Services</h2>
+                <p class="text-muted">Discover our range of premium salon services</p>
+            </div>
+            <div class="row g-4">
+                <!-- Service 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-custom service-card h-100">
+                        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=250&fit=crop" alt="Hair Styling" class="service-image w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Hair Styling</h5>
+                            <p class="text-muted">Professional cuts, coloring, and styling services</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">From $45</span>
+                                <a href="customer-booking.html" class="btn btn-sm btn-outline-primary-custom">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-custom service-card h-100">
+                        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=250&fit=crop" alt="Facial Treatment" class="service-image w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Facial Treatments</h5>
+                            <p class="text-muted">Rejuvenating facials for glowing skin</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">From $65</span>
+                                <a href="customer-booking.html" class="btn btn-sm btn-outline-primary-custom">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-custom service-card h-100">
+                        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=250&fit=crop" alt="Manicure & Pedicure" class="service-image w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Nail Services</h5>
+                            <p class="text-muted">Manicures, pedicures, and nail art</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">From $30</span>
+                                <a href="customer-booking.html" class="btn btn-sm btn-outline-primary-custom">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-custom service-card h-100">
+                        <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400&h=250&fit=crop" alt="Makeup" class="service-image w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Makeup Services</h5>
+                            <p class="text-muted">Professional makeup for any occasion</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">From $55</span>
+                                <a href="customer-booking.html" class="btn btn-sm btn-outline-primary-custom">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-custom service-card h-100">
+                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&h=250&fit=crop" alt="Massage" class="service-image w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Massage Therapy</h5>
+                            <p class="text-muted">Relaxing massages for stress relief</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">From $70</span>
+                                <a href="customer-booking.html" class="btn btn-sm btn-outline-primary-custom">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card-custom service-card h-100">
+                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=250&fit=crop" alt="Hair Removal" class="service-image w-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Hair Removal</h5>
+                            <p class="text-muted">Safe and effective hair removal services</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="service-price">From $25</span>
+                                <a href="customer-booking.html" class="btn btn-sm btn-outline-primary-custom">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="customer-services.html" class="btn btn-primary-custom btn-lg">
+                    View All Services <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section id="staff" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Meet Our Experts</h2>
+                <p class="text-muted">Our talented team of professionals</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <!-- Staff 1 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom staff-card">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Sarah Johnson" class="staff-avatar">
+                        <h5 class="staff-name">Sarah Johnson</h5>
+                        <p class="staff-role">Master Stylist</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Staff 2 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom staff-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop" alt="Michael Chen" class="staff-avatar">
+                        <h5 class="staff-name">Michael Chen</h5>
+                        <p class="staff-role">Color Specialist</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Staff 3 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom staff-card">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop" alt="Emily Davis" class="staff-avatar">
+                        <h5 class="staff-name">Emily Davis</h5>
+                        <p class="staff-role">Esthetician</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Staff 4 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom staff-card">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" alt="David Wilson" class="staff-avatar">
+                        <h5 class="staff-name">David Wilson</h5>
+                        <p class="staff-role">Massage Therapist</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-cream">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop" alt="About Us" class="img-fluid rounded-3 shadow">
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <h2 class="fw-bold mb-4">About Luxe Salon</h2>
+                    <p class="text-muted mb-4">Founded in 2010, Luxe Salon has been providing premium beauty services to our community for over a decade. Our commitment to excellence and customer satisfaction has made us one of the most trusted salons in the area.</p>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary-custom me-3" style="font-size: 1.5rem;"></i>
+                                <span>10+ Years Experience</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary-custom me-3" style="font-size: 1.5rem;"></i>
+                                <span>5000+ Happy Clients</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary-custom me-3" style="font-size: 1.5rem;"></i>
+                                <span>Expert Stylists</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-check-circle text-primary-custom me-3" style="font-size: 1.5rem;"></i>
+                                <span>Premium Products</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">What Our Clients Say</h2>
+                <p class="text-muted">Hear from our satisfied customers</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-custom p-4">
+                        <div class="d-flex text-warning mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">"Absolutely love this salon! Sarah did an amazing job with my hair. Will definitely be coming back!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=50&h=50&fit=crop" alt="Client" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">Amanda Roberts</h6>
+                                <small class="text-muted">Regular Client</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom p-4">
+                        <div class="d-flex text-warning mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">"Best salon experience I've ever had. The staff is professional and the atmosphere is wonderful."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="Client" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">James Thompson</h6>
+                                <small class="text-muted">Regular Client</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom p-4">
+                        <div class="d-flex text-warning mb-3">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">"The facial treatment was incredible! My skin has never looked better. Highly recommend!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop" alt="Client" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                            <div>
+                                <h6 class="mb-0">Jessica Martinez</h6>
+                                <small class="text-muted">Regular Client</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-cream">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h2 class="fw-bold mb-4">Get In Touch</h2>
+                    <p class="text-muted mb-4">Have questions? We'd love to hear from you!</p>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary-custom rounded-circle p-3 me-3 text-white">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Address</h6>
+                            <p class="text-muted mb-0">123 Beauty Lane, New York, NY 10001</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary-custom rounded-circle p-3 me-3 text-white">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Phone</h6>
+                            <p class="text-muted mb-0">(555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary-custom rounded-circle p-3 me-3 text-white">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Email</h6>
+                            <p class="text-muted mb-0">info@luxesalon.com</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary-custom rounded-circle p-3 me-3 text-white">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-0">Hours</h6>
+                            <p class="text-muted mb-0">Mon-Sat: 9AM - 7PM<br>Sunday: Closed</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card-custom p-4">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Name</label>
+                                    <input type="text" class="form-control form-control-custom" placeholder="Your Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label-custom">Email</label>
+                                    <input type="email" class="form-control form-control-custom" placeholder="Your Email">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label-custom">Subject</label>
+                                    <input type="text" class="form-control form-control-custom" placeholder="Subject">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label-custom">Message</label>
+                                    <textarea class="form-control form-control-custom" rows="5" placeholder="Your Message"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary-custom">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
