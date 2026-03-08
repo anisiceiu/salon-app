@@ -12,9 +12,17 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="admin-dashboard.html">Dashboard</a>
                     </li>
+                     @if(userRole=='Admin')
+                    {
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/admin-services">Services</a>
                     </li>
+                    }
+                    @else if(userRole=='Customer'){
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/customer-services">Services</a>
+                    </li>
+                    }
                     <li class="nav-item">
                         <a class="nav-link" href="admin-staff.html">Staff</a>
                     </li>
@@ -47,7 +55,9 @@
                     <small class="text-muted">Luxe Salon</small>
                 </div>
                 <nav class="nav flex-column">
-                    <a class="nav-link active" href="admin-dashboard.html">
+                    @if(userRole=='Admin')
+                    {
+                        <a class="nav-link active" routerLink="/admin-dashboard">
                         <i class="fas fa-home"></i> Dashboard
                     </a>
                     <a class="nav-link" routerLink="/admin-services">
@@ -71,6 +81,63 @@
                     <a class="nav-link" href="index.html">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </a>
+                    }
+
+                    @else if(userRole == 'Customer')
+                    {
+                        <a class="nav-link active" routerLink="/customer-dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a class="nav-link" routerLink="/customer-services">
+                        <i class="fas fa-concierge-bell"></i> Services
+                    </a>
+                    <a class="nav-link" href="admin-staff.html">
+                        <i class="fas fa-users"></i> Staff
+                    </a>
+                    <a class="nav-link" href="admin-reports.html">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-calendar-alt"></i> Schedule
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-percentage"></i> Discounts
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                    }
+                    @else
+                    {
+                        <a class="nav-link active" routerLink="/admin-dashboard">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a class="nav-link" routerLink="/admin-services">
+                        <i class="fas fa-concierge-bell"></i> Services
+                    </a>
+                    <a class="nav-link" href="admin-staff.html">
+                        <i class="fas fa-users"></i> Staff
+                    </a>
+                    <a class="nav-link" href="admin-reports.html">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-calendar-alt"></i> Schedule
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-percentage"></i> Discounts
+                    </a>
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a class="nav-link" href="index.html">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                    }
+                    
                 </nav>
             </div>
 

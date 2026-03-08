@@ -11,47 +11,43 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './admin-services.css',
 })
 export class AdminServices {
-   servicesService=inject(ServicesService);
-   categories=signal(Array<any>());
-   services=signal(Array<any>());
-   selectedCategory = signal<number | null>(null);
-   toastr = inject(ToastrService);
+  servicesService = inject(ServicesService);
+  categories = signal(Array<any>());
+  services = signal(Array<any>());
+  selectedCategory = signal<number | null>(null);
+  toastr = inject(ToastrService);
 
-   constructor()
-   {
+  constructor() {
 
-   }
+  }
 
-   selectCategory(id: number | null) {
-      this.selectedCategory.set(id);
-      if(this.selectedCategory())
-      {
-        this.servicesService.getServicesByCategoryId(this.selectedCategory()).subscribe(data=>{
-          this.services.set(data as any);
-          console.log(data);
-        });
-      }
-      else{
-        this.servicesService.getAllServices().subscribe(data=>{
-          this.services.set(data as any);
-          console.log(data);
-        });
-      }
+  selectCategory(id: number | null) {
+    this.selectedCategory.set(id);
+    if (this.selectedCategory()) {
+      this.servicesService.getServicesByCategoryId(this.selectedCategory()).subscribe(data => {
+        this.services.set(data as any);
+        console.log(data);
+      });
     }
-    
-   ngOnInit()
-   {
-    this.servicesService.getCategories().subscribe(data=>{
+    else {
+      this.servicesService.getAllServices().subscribe(data => {
+        this.services.set(data as any);
+        console.log(data);
+      });
+    }
+  }
+
+  ngOnInit() {
+    this.servicesService.getCategories().subscribe(data => {
       this.categories.set(data as any);
     });
-    
-    this.selectCategory(null);
-    
-   }
 
-    deleteService(id:number)
-  {
-    this.servicesService.deleteService(id).subscribe(data=>{
+    this.selectCategory(null);
+
+  }
+
+  deleteService(id: number) {
+    this.servicesService.deleteService(id).subscribe(data => {
       this.toastr.success("Deleted successfully!");
       this.selectCategory(this.selectedCategory());
     });

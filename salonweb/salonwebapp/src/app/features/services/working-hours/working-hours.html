@@ -1,0 +1,35 @@
+<div class="container py-4">
+  <h3 class="mb-4">Set Staff Working Hours</h3>
+  
+  <form id="workingHoursForm">
+    <div class="row g-3">
+      <!-- Loop through days of the week -->
+       @for(day of daysOfWeek;track $index;){
+      <div class="col-12 mb-3" >
+        <div class="card p-3">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="workingSwitch{{$index}}" [(ngModel)]="workingHours[$index].isWorking" name="workingSwitch{{$index}}">
+              <label class="form-check-label fw-bold" for="workingSwitch{{$index}}">{{ day }}</label>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+              <div>
+                <label class="form-label mb-1">Start</label>
+                <input type="time" class="form-control" [(ngModel)]="workingHours[$index].startTime" name="startTime{{$index}}" [disabled]="!workingHours[$index].isWorking">
+              </div>
+              <div>
+                <label class="form-label mb-1">End</label>
+                <input type="time" class="form-control" [(ngModel)]="workingHours[$index].endTime" name="endTime{{$index}}" [disabled]="!workingHours[$index].isWorking">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       }
+    </div>
+    
+    <div class="mt-4 text-end">
+      <button type="submit" (click)="save()" class="btn btn-primary">Save Working Hours</button>
+    </div>
+  </form>
+</div>

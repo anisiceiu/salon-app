@@ -11,6 +11,8 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class SecureLayout {
   authService = inject(AuthService);
+  userRole=localStorage.getItem('role');
+  
   constructor(private router:Router)
   {
 

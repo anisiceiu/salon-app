@@ -48,12 +48,7 @@ export const routes: Routes = [
           import('./features/home/home')
             .then(m => m.Home)
       },
-      {
-        path: 'customer-services',
-        loadComponent: () =>
-          import('./features/services/customer-services/customer-services')
-            .then(m => m.CustomerServices)
-      },
+     
     ]
   },
 
@@ -75,11 +70,23 @@ export const routes: Routes = [
           import('./features/dashboard/customer/customer')
             .then(m => m.Customer)
       },
-      {
-        path: 'staff-dashboard',
+       {
+        path: 'customer-services',
         loadComponent: () =>
-          import('./features/dashboard/staff/staff')
-            .then(m => m.Staff)
+          import('./features/services/customer-services/customer-services')
+            .then(m => m.CustomerServices)
+      },
+      {
+        path: 'customer-booking',
+        loadComponent: () =>
+          import('./features/services/customer-booking/customer-booking')
+            .then(m => m.CustomerBooking)
+      },
+      {
+        path: 'working-hours',
+        loadComponent: () =>
+          import('./features/services/working-hours/working-hours')
+            .then(m => m.WorkingHours)
       },
       {
         path: 'admin-services',

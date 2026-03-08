@@ -1,0 +1,368 @@
+<!-- Page Header -->
+<section class="bg-cream py-4 mt-5">
+    <div class="container">
+        <h1 class="fw-bold">Book Appointment</h1>
+        <p class="text-muted">Select services, choose your stylist, and pick a time</p>
+    </div>
+</section>
+
+<!-- Booking Section -->
+<section class="py-5">
+    <div class="container">
+        <!-- Step Indicator -->
+        <div class="step-indicator mb-5">
+            <div [class.active]="currentStep() === 1" class="step" id="step1">
+                <div class="step-number">1</div>
+                <div class="step-label">Services</div>
+            </div>
+            <div [class.active]="currentStep() === 2" class="step" id="step2">
+                <div class="step-number">2</div>
+                <div class="step-label">Staff</div>
+            </div>
+            <div [class.active]="currentStep() === 3" class="step" id="step3">
+                <div class="step-number">3</div>
+                <div class="step-label">Date & Time</div>
+            </div>
+            <div [class.active]="currentStep() === 4" class="step" id="step4">
+                <div class="step-number">4</div>
+                <div class="step-label">Confirm</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Step 1: Services -->
+                @if(currentStep() === 1)
+                {
+                <div id="step1Content" class="booking-step">
+                    <div class="card-custom mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-scissors me-2"></i>Select Services
+                        </div>
+                        <div class="card-body">
+                            <!-- Service 1 -->
+                            @for(service of services();track service.id){
+                            <div class="service-card p-3 mb-3" (click)="toggleService(service)">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <!-- <input type="checkbox" class="form-check-input me-3"> -->
+                                        <div>
+                                            <h6 class="mb-0">{{service.name}}</h6>
+                                            <small class="text-muted">{{service.duration}} min</small>
+                                        </div>
+                                    </div>
+                                    <span class="service-price">${{service.price}}</span>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary-custom" (click)="goToStep(2)">
+                            Continue <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+                }
+                @else if(currentStep() === 2){
+                <!-- Step 2: Staff -->
+                <div id="step2Content" class="booking-step">
+                    <div class="card-custom mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-user-tie me-2"></i>Select Stylist (Optional)
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="staff" id="noPreference" checked>
+                                <label class="form-check-label" for="noPreference">
+                                    <strong>No Preference</strong> - Any available stylist
+                                </label>
+                            </div>
+                            <hr>
+                            <!-- Staff 1 -->
+                            <div class="staff-card p-3 mb-3 border rounded"
+                                onclick="selectStaff(this, 'Sarah Johnson')">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="staff" id="staff1">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop"
+                                        alt="Sarah" class="rounded-circle me-3"
+                                        style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0">Sarah Johnson</h6>
+                                        <small class="text-muted">Master Stylist - 10 years experience</small>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Staff 2 -->
+                            <div class="staff-card p-3 mb-3 border rounded" onclick="selectStaff(this, 'Michael Chen')">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="staff" id="staff2">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop"
+                                        alt="Michael" class="rounded-circle me-3"
+                                        style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0">Michael Chen</h6>
+                                        <small class="text-muted">Color Specialist - 8 years experience</small>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Staff 3 -->
+                            <div class="staff-card p-3 mb-3 border rounded" onclick="selectStaff(this, 'Emily Davis')">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="staff" id="staff3">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop"
+                                        alt="Emily" class="rounded-circle me-3"
+                                        style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0">Emily Davis</h6>
+                                        <small class="text-muted">Esthetician - 6 years experience</small>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Staff 4 -->
+                            <div class="staff-card p-3 border rounded" onclick="selectStaff(this, 'David Wilson')">
+                                <div class="d-flex align-items-center">
+                                    <input class="form-check-input me-3" type="radio" name="staff" id="staff4">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=60&h=60&fit=crop"
+                                        alt="David" class="rounded-circle me-3"
+                                        style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0">David Wilson</h6>
+                                        <small class="text-muted">Massage Therapist - 5 years experience</small>
+                                        <div class="text-warning small">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary" (click)="goToStep(1)">
+                            <i class="fas fa-arrow-left me-2"></i>Back
+                        </button>
+                        <button class="btn btn-primary-custom" (click)="goToStep(3)">
+                            Continue <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+                }
+                @else if(currentStep() === 3){
+                <!-- Step 3: Date & Time -->
+                <div id="step3Content" class="booking-step">
+                    <div class="row">
+                        <!-- Calendar -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card-custom h-100">
+                                <div class="card-header">
+                                    <i class="fas fa-calendar me-2"></i>Select Date
+                                </div>
+                                <div class="card-body">
+                                    <div id="bookingCalendar">
+                                        <div class="calendar">
+
+                                            <div class="calendar-header d-flex justify-content-between">
+
+                                                <button class="btn btn-sm btn-outline-secondary"
+                                                    (click)="changeMonth(-1)">
+                                                    ‹
+                                                </button>
+
+                                                <h5>
+                                                    {{currentMonth()+1}} / {{currentYear()}}
+                                                </h5>
+
+                                                <button class="btn btn-sm btn-outline-secondary"
+                                                    (click)="changeMonth(1)">
+                                                    ›
+                                                </button>
+
+                                            </div>
+
+
+                                            <div class="calendar-grid">
+
+                                                @for(day of days(); track $index){
+
+                                                <div class="calendar-day" [class.disabled]="!day || day.disabled"
+                                                    [class.selected]="day?.date === selectedDate()"
+                                                    (click)="day && !day.disabled && selectDate(day.date)">
+
+                                                    {{day?.day}}
+
+                                                </div>
+
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="selectedDate">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Time Slots -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card-custom h-100">
+                                <div class="card-header">
+                                    <i class="fas fa-clock me-2"></i>Select Time
+                                </div>
+                                <div class="card-body">
+                                    <div id="timeSlots">
+                                        <div class="mt-4">
+
+                                            <h6>Available Time Slots</h6>
+
+                                            <div class="row g-2">
+
+                                                @for(slot of timeSlots(); track slot.time){
+
+                                                <div class="col-4">
+
+                                                    <div class="time-slot text-center p-2 border rounded"
+                                                        [class.unavailable]="!slot.available"
+                                                        [class.selected]="selectedTime()===slot.time"
+                                                        (click)="slot.available && selectTime(slot.time)">
+
+                                                        {{slot.time}}
+
+                                                    </div>
+
+                                                </div>
+
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="selectedTime">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary" (click)="goToStep(2)">
+                            <i class="fas fa-arrow-left me-2"></i>Back
+                        </button>
+                        <button class="btn btn-primary-custom" (click)="goToStep(4)">
+                            Continue <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                }
+                @else
+                {
+                <!-- Step 4: Confirmation -->
+                <div id="step4Content" class="booking-step">
+                    <div class="card-custom mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-check-circle me-2"></i>Confirm Your Booking
+                        </div>
+                        <div class="card-body">
+                            <form id="bookingForm">
+                                <div class="mb-4">
+                                    <h6 class="fw-bold mb-3">Contact Information</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label-custom">Full Name</label>
+                                            <input type="text" class="form-control form-control-custom" value="John Doe"
+                                                required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label-custom">Phone Number</label>
+                                            <input type="tel" class="form-control form-control-custom"
+                                                value="(555) 123-4567" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label-custom">Email</label>
+                                            <input type="email" class="form-control form-control-custom"
+                                                value="john.doe@email.com" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <h6 class="fw-bold mb-3">Additional Notes</h6>
+                                    <textarea class="form-control form-control-custom" rows="3"
+                                        placeholder="Any special requests or notes for your stylist..."></textarea>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">
+                                        I agree to the cancellation policy and terms of service
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-outline-secondary" (click)="goToStep(3)">
+                            <i class="fas fa-arrow-left me-2"></i>Back
+                        </button>
+                        <button class="btn btn-primary-custom" onclick="confirmBooking()">
+                            <i class="fas fa-check me-2"></i>Confirm Booking
+                        </button>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- Sidebar - Booking Summary -->
+            <div class="col-lg-4">
+                <div class="booking-summary">
+
+                    <h5>Booking Summary</h5>
+
+                    <h6>Services</h6>
+
+                    <div *ngIf="selectedServices().length === 0">
+                        No services selected
+                    </div>
+
+                    <div *ngFor="let s of selectedServices()">
+                        {{s.name}} - ${{s.price}}
+                    </div>
+
+                    <h6>Staff</h6>
+                    {{selectedStaff()}}
+
+                    <h6>Date & Time</h6>
+                    {{selectedDate()}} {{selectedTime()}}
+
+                    <hr>
+
+                    <strong>Total: ${{cartTotal()}}</strong>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
