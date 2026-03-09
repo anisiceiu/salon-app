@@ -9,9 +9,9 @@ export class StaffService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
- getCategories()
+ getStaffs()
  {
-    return this.http.get(`${this.apiUrl}/categories`);
+    return this.http.get(`${this.apiUrl}`);
  }
 
  getServicesByCategoryId(id:number | null)
@@ -34,12 +34,17 @@ export class StaffService {
    return this.http.post(this.apiUrl,data);
  }
 
+formatTime(time: string): string {
+  if (!time) return '';
+  return time.length === 5 ? time + ':00' : time;
+}
+
  saveWorkingHours(staffId: number,data:any) {
   const payload = {
     workingHours: data.map((w:any) => ({
       dayOfWeek: w.dayOfWeek,
-      startTime: w.startTime,   // must be "HH:mm"
-      endTime: w.endTime,       // must be "HH:mm"
+      startTime: this.formatTime(w.startTime),   // must be "HH:mm"
+      endTime: this.formatTime(w.endTime),       // must be "HH:mm"
       isWorking: w.isWorking
     }))
   };

@@ -2,6 +2,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ServicesService } from '../../../core/services/services.service';
 import { CommonModule } from '@angular/common';
 import { BookingService } from '../../../core/services/booking.service';
+import { StaffService } from '../../../core/services/staff.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customer-booking',
@@ -14,9 +16,13 @@ export class CustomerBooking {
   servicesService = inject(ServicesService);
   services = signal(Array<any>());
   selectedServices = signal<any[]>([]);
-  selectedStaff = signal('No preference');
+  selectedStaff = signal(0);
   selectedDate = signal('');
   selectedTime = signal('');
+  staffService = inject(StaffService);
+  toastr = inject(ToastrService);
+  staffs = signal(Array<any>());
+  weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   constructor(public booking: BookingService)
   {
@@ -26,6 +32,7 @@ export class CustomerBooking {
       this.selectedServices.set(this.booking.selectedServices());
     }
     this.getServices();
+    this.getStaffs();
   }
 
   getServices() {
@@ -58,8 +65,8 @@ export class CustomerBooking {
     });
   }
 
-  selectStaff(name: string) {
-    this.selectedStaff.set(name);
+  selectStaff(staffId: number) {
+    this.selectedStaff.set(staffId);
   }
 
 
@@ -68,10 +75,7 @@ export class CustomerBooking {
   currentMonth = signal(this.today.getMonth());
   currentYear = signal(this.today.getFullYear());
 
-  bookedDates = [
-    '2026-03-05',
-    '2026-03-08',
-    '2026-03-12'
+  bookedDates = [''
   ];
 
   days = computed(() => {
@@ -134,34 +138,64 @@ export class CustomerBooking {
 
   selectDate(date: string) {
     this.selectedDate.set(date);
+    this.getAvailableSlots(2,1,new Date(this.selectedDate()));
   }
 
   // ----- Time slots -----
 
   timeSlots = signal([
-    { time: '09:00', available: true },
-    { time: '09:30', available: true },
+    { time: '09:00', available: false },
+    { time: '09:30', available: false },
     { time: '10:00', available: false },
-    { time: '10:30', available: true },
-    { time: '11:00', available: true },
-    { time: '11:30', available: true },
+    { time: '10:30', available: false },
+    { time: '11:00', available: false },
+    { time: '11:30', available: false },
     { time: '12:00', available: false },
-    { time: '12:30', available: true },
-    { time: '13:00', available: true },
+    { time: '12:30', available: false },
+    { time: '13:00', available: false },
     { time: '13:30', available: false },
-    { time: '14:00', available: true },
-    { time: '14:30', available: true },
-    { time: '15:00', available: true },
-    { time: '15:30', available: true },
+    { time: '14:00', available: false },
+    { time: '14:30', available: false },
+    { time: '15:00', available: false },
+    { time: '15:30', available: false },
     { time: '16:00', available: false },
-    { time: '16:30', available: true },
-    { time: '17:00', available: true },
+    { time: '16:30', available: false },
+    { time: '17:00', available: false },
     { time: '17:30', available: false },
-    { time: '18:00', available: true }
+    { time: '18:00', available: false }
   ]);
 
   selectTime(time: string) {
     this.selectedTime.set(time);
+  }
+
+  loadSlots(apiData: any[]) {
+
+  const slots = apiData.map(x => ({
+    time: new Date(x.startTime).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }),
+    available: x.isAvailable
+  }));
+
+  this.timeSlots.set(slots);
+
+}
+
+
+getAvailableSlots(staffId:number,serviceId:number,date:Date)
+{
+  this.booking.getAvailableSlots(staffId,serviceId,date).subscribe((data:any)=>{
+     this.loadSlots(data);
+  });
+}
+
+getStaffs() {
+    this.staffService.getStaffs().subscribe((data: any) => {
+      this.staffs.set(data);
+    });
   }
 
 }

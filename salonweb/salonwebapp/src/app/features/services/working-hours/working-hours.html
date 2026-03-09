@@ -3,6 +3,16 @@
   
   <form id="workingHoursForm">
     <div class="row g-3">
+      <div class="col-md-4">
+                <label class="form-label-custom">Staff</label>
+                <select [(ngModel)]="staffId" name="staffId" class="form-select form-control-custom">
+                    @for(staff of staffs();track staff.id)
+                    {
+                        <option value="{{staff.id}}">{{staff.firstName}} {{staff.lastName}}</option>
+                    }
+                    
+                </select>
+            </div>
       <!-- Loop through days of the week -->
        @for(day of daysOfWeek;track $index;){
       <div class="col-12 mb-3" >
