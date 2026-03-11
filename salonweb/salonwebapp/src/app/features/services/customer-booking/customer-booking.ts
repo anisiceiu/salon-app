@@ -198,4 +198,9 @@ getStaffs() {
     });
   }
 
+  selectedStaffObj=computed(()=>{
+    return this.staffs().find(c=> c.id == this.selectedStaff());
+  });
+  
+
 }
