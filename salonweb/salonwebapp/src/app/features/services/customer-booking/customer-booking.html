@@ -46,7 +46,7 @@
                             <div class="service-card p-3 mb-3" (click)="toggleService(service)">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
-                                        <input type="checkbox" class="form-check-input me-3"/>
+                                        <input type="checkbox" class="form-check-input me-3" />
                                         <div>
                                             <h6 class="mb-0">{{service.name}}</h6>
                                             <small class="text-muted">{{service.duration}} min</small>
@@ -74,7 +74,8 @@
                         </div>
                         <div class="card-body">
                             <div class="form-check mb-3">
-                                <input class="form-check-input" [checked]="selectedStaff() == 0" type="radio" name="staff" id="noPreference" (click)="selectStaff(0)">
+                                <input class="form-check-input" [checked]="selectedStaff() == 0" type="radio"
+                                    name="staff" id="noPreference" (click)="selectStaff(0)">
                                 <label class="form-check-label" for="noPreference">
                                     <strong>No Preference</strong> - Any available stylist
                                 </label>
@@ -84,7 +85,8 @@
                             @for(staff of staffs();track staff.id;){
                             <div class="staff-card p-3 mb-3 border rounded" (click)="selectStaff(staff.id)">
                                 <div class="d-flex align-items-center">
-                                    <input class="form-check-input me-3" [checked]="selectedStaff() == staff.id" type="radio" name="staff" id="staff1">
+                                    <input class="form-check-input me-3" [checked]="selectedStaff() == staff.id"
+                                        type="radio" name="staff" id="staff1">
                                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop"
                                         alt="Sarah" class="rounded-circle me-3"
                                         style="width: 60px; height: 60px; object-fit: cover;">
@@ -150,7 +152,7 @@
                                             <div class="calendar-weekdays">
                                                 @for(day of weekDays; track $index){
                                                 <div class="weekday">
-                                                     {{day}}
+                                                    {{day}}
                                                 </div>
                                                 }
                                             </div>
@@ -179,40 +181,56 @@
                         <!-- Time Slots -->
                         <div class="col-md-6 mb-4">
                             <div class="card-custom h-100">
+
                                 <div class="card-header">
                                     <i class="fas fa-clock me-2"></i>Select Time
                                 </div>
+
                                 <div class="card-body">
-                                    <div id="timeSlots">
-                                        <div class="mt-4">
 
-                                            <h6>Available Time Slots</h6>
+                                    <div class="mt-2">
 
-                                            <div class="row g-2">
+                                        <h6 class="mb-3">Available Time Slots</h6>
 
-                                                @for(slot of timeSlots(); track slot.time){
+                                        <div class="row g-2">
 
-                                                <div class="col-4">
+                                            @for(slot of timeSlots(); track slot.startTime){
 
-                                                    <div class="time-slot text-center p-2 border rounded"
-                                                        [class.unavailable]="!slot.available"
-                                                        [class.selected]="selectedTime()===slot.time"
-                                                        (click)="slot.available && selectTime(slot.time)">
+                                            <div class="col-6">
 
-                                                        {{slot.time}}
+                                                <div class="time-slot p-2 border rounded text-center"
+                                                    [class.unavailable]="!slot.isAvailable"
+                                                    [class.selected]="selectedSlot()?.startTime === slot.startTime"
+                                                    (click)="slot.isAvailable && selectSlot(slot)">
+
+                                                    <div class="fw-bold">
+
+                                                        {{slot.startTime | date:'hh:mm a'}}
+                                                        -
+                                                        {{slot.endTime | date:'hh:mm a'}}
 
                                                     </div>
 
-                                                </div>
+                                                    <small class="text-muted d-block">
+                                                        {{slot.totalDurationMinutes}} min
+                                                    </small>
 
-                                                }
+                                                   <!--  <small class="text-success fw-semibold">
+                                                        ${{slot.totalPrice}}
+                                                    </small> -->
+
+                                                </div>
 
                                             </div>
 
+                                            }
+
                                         </div>
+
                                     </div>
-                                    <input type="hidden" id="selectedTime">
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -275,7 +293,7 @@
                         <button class="btn btn-outline-secondary" (click)="goToStep(3)">
                             <i class="fas fa-arrow-left me-2"></i>Back
                         </button>
-                        <button class="btn btn-primary-custom" onclick="confirmBooking()">
+                        <button class="btn btn-primary-custom" (click)="confirmBooking()">
                             <i class="fas fa-check me-2"></i>Confirm Booking
                         </button>
                     </div>
@@ -303,7 +321,7 @@
                     {{selectedStaffObj()?.firstName}} {{selectedStaffObj()?.lastName}}
 
                     <h6>Date & Time</h6>
-                    {{selectedDate()}} {{selectedTime()}}
+                    {{selectedDate()}} ({{selectedSlot()?.startTime | date:'hh:mm a'}} - {{selectedSlot()?.endTime | date:'hh:mm a'}})
 
                     <hr>
 

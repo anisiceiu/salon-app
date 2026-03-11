@@ -16,7 +16,7 @@ export class CustomerBooking {
   servicesService = inject(ServicesService);
   services = signal(Array<any>());
   selectedServices = signal<any[]>([]);
-  selectedStaff = signal(0);
+  selectedStaff = signal<any | null>(null);
   selectedDate = signal('');
   selectedTime = signal('');
   staffService = inject(StaffService);
@@ -24,11 +24,9 @@ export class CustomerBooking {
   staffs = signal(Array<any>());
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-  constructor(public booking: BookingService)
-  {
-    console.log('selected:',booking.selectedServices);
-    if(booking.selectedServices())
-    {
+  constructor(public booking: BookingService) {
+    console.log('selected:', booking.selectedServices());
+    if (booking.selectedServices()) {
       this.selectedServices.set(this.booking.selectedServices());
     }
     this.getServices();
@@ -43,7 +41,7 @@ export class CustomerBooking {
     });
   }
 
-  
+
 
   cartTotal = computed(() =>
     this.selectedServices().reduce((sum, s) => sum + s.price, 0)
@@ -63,6 +61,8 @@ export class CustomerBooking {
 
       return [...list, service];
     });
+
+    this.booking.selectedServices.set(this.selectedServices());
   }
 
   selectStaff(staffId: number) {
@@ -138,69 +138,98 @@ export class CustomerBooking {
 
   selectDate(date: string) {
     this.selectedDate.set(date);
-    this.getAvailableSlots(2,1,new Date(this.selectedDate()));
+    console.log('selected:', this.booking.selectedServices());
+    let serviceIds = this.selectedServices().map(s => s.id);
+    this.getAvailableSlots(serviceIds, this.selectedStaff(), new Date(this.selectedDate()));
   }
 
   // ----- Time slots -----
 
-  timeSlots = signal([
-    { time: '09:00', available: false },
-    { time: '09:30', available: false },
-    { time: '10:00', available: false },
-    { time: '10:30', available: false },
-    { time: '11:00', available: false },
-    { time: '11:30', available: false },
-    { time: '12:00', available: false },
-    { time: '12:30', available: false },
-    { time: '13:00', available: false },
-    { time: '13:30', available: false },
-    { time: '14:00', available: false },
-    { time: '14:30', available: false },
-    { time: '15:00', available: false },
-    { time: '15:30', available: false },
-    { time: '16:00', available: false },
-    { time: '16:30', available: false },
-    { time: '17:00', available: false },
-    { time: '17:30', available: false },
-    { time: '18:00', available: false }
+  timeSlots = signal<any[]>([
+    {
+      startTime: '2026-03-11T09:00:00',
+      endTime: '2026-03-11T11:50:00',
+      totalDurationMinutes: 170,
+      totalPrice: 120,
+      isAvailable: false
+    },
+    {
+      startTime: '2026-03-11T09:30:00',
+      endTime: '2026-03-11T12:20:00',
+      totalDurationMinutes: 170,
+      totalPrice: 120,
+      isAvailable: false
+    },
+    {
+      startTime: '2026-03-11T10:00:00',
+      endTime: '2026-03-11T12:50:00',
+      totalDurationMinutes: 170,
+      totalPrice: 120,
+      isAvailable: false
+    },
+    {
+      startTime: '2026-03-11T10:30:00',
+      endTime: '2026-03-11T13:20:00',
+      totalDurationMinutes: 170,
+      totalPrice: 120,
+      isAvailable: false
+    },
+    {
+      startTime: '2026-03-11T11:00:00',
+      endTime: '2026-03-11T13:50:00',
+      totalDurationMinutes: 170,
+      totalPrice: 120,
+      isAvailable: false
+    }
   ]);
 
   selectTime(time: string) {
     this.selectedTime.set(time);
   }
 
-  loadSlots(apiData: any[]) {
-
-  const slots = apiData.map(x => ({
-    time: new Date(x.startTime).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    }),
-    available: x.isAvailable
-  }));
-
-  this.timeSlots.set(slots);
-
-}
 
 
-getAvailableSlots(staffId:number,serviceId:number,date:Date)
-{
-  this.booking.getAvailableSlots(staffId,serviceId,date).subscribe((data:any)=>{
-     this.loadSlots(data);
-  });
-}
+  selectedSlot = signal<any | null>(null);
 
-getStaffs() {
+  selectSlot(slot: any) {
+    this.selectedSlot.set(slot);
+  }
+  getAvailableSlots(serviceIds: number[], staffId: number, date: Date) {
+    this.booking.getMultiServiceSlots(serviceIds, staffId, date).subscribe((data: any) => {
+      this.timeSlots.set(data);
+    });
+  }
+
+  getStaffs() {
     this.staffService.getStaffs().subscribe((data: any) => {
       this.staffs.set(data);
     });
   }
 
-  selectedStaffObj=computed(()=>{
-    return this.staffs().find(c=> c.id == this.selectedStaff());
+  selectedStaffObj = computed(() => {
+    return this.staffs().find(c => c.id == this.selectedStaff());
   });
-  
+
+
+  confirmBooking() {
+    let serviceIds = this.selectedServices().map(s => s.id);
+    const bookingRequest = {
+      serviceIds: serviceIds,
+      preferredStaffId: this.selectedStaff(),
+      dateTime: this.selectedSlot().startTime,
+      notes: 'Customer prefers senior barber'
+    };
+
+    this.booking.createBooking(bookingRequest)
+      .subscribe({
+        next: res => {
+          this.toastr.success("Booking Saved sucessfully");
+        },
+        error: err => {
+          this.toastr.error(err?.error?.message);
+
+        }
+      });
+  }
 
 }

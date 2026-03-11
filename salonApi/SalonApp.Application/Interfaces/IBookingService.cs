@@ -15,4 +15,10 @@ public interface IBookingService
     Task<IEnumerable<AppointmentDto>> GetCustomerBookingsAsync(int customerId);
     Task<IEnumerable<AppointmentDto>> GetStaffAppointmentsAsync(int staffId);
     Task<AppointmentDto?> GetAppointmentByIdAsync(int appointmentId);
+    
+    // Multi-service booking methods
+    Task<IEnumerable<MultiServiceSlotDto>> GetMultiServiceSlotsAsync(List<int> serviceIds, int? staffId, DateTime date);
+    Task<IEnumerable<AutoAssignStaffResultDto>> GetAvailableStaffForMultipleServicesAsync(List<int> serviceIds, DateTime date);
+    Task<AppointmentDto> CreateMultiServiceBookingAsync(int customerId, CreateMultiServiceBookingRequest request);
+    Task<IEnumerable<ServiceDto>> GetAppointmentServicesAsync(int appointmentId);
 }

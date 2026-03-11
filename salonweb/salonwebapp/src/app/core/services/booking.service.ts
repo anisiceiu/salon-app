@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -21,7 +21,38 @@ export class BookingService {
         return `${month}/${day}/${year}`;
     }
 
-    getAvailableSlots(staffId: number, serviceid: number, date: Date) {
-        return this.http.get(`${this.apiUrl}/slots?staffId=${staffId}&serviceId=${serviceid}&date=${this.formatDate(date)}`);
+    getMultiServiceStaffs(serviceIds: number[], date: Date)
+    {
+        let params = new HttpParams();
+
+        serviceIds.forEach(id => {
+            params = params.append('serviceIds', id);
+        });
+
+         params = params.append('date', this.formatDate(date));
+
+          return this.http.get(`${this.apiUrl}/multi-service-auto-assign`, { params });
+
+    }
+
+    getMultiServiceSlots(serviceIds: number[], staffId: number | null, date: Date) {
+
+        let params = new HttpParams();
+
+        serviceIds.forEach(id => {
+            params = params.append('serviceIds', id);
+        });
+
+        if (staffId) {
+            params = params.append('staffId', staffId);
+        }
+
+        params = params.append('date', this.formatDate(date));
+
+        return this.http.get(`${this.apiUrl}/multi-service-slots`, { params });
+    }
+
+    createBooking(request: any) {
+        return this.http.post(`${this.apiUrl}/multi`, request);
     }
 }

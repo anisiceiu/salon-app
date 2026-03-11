@@ -443,6 +443,328 @@ public class BookingService : IBookingService
         return appointment == null ? null : MapToDto(appointment);
     }
 
+    // ==================== Multi-Service Booking Methods ====================
+
+    public async Task<IEnumerable<MultiServiceSlotDto>> GetMultiServiceSlotsAsync(List<int> serviceIds, int? staffId, DateTime date)
+    {
+        if (serviceIds == null || !serviceIds.Any())
+            throw new ArgumentException("At least one service is required");
+
+        // Get all services to determine duration and price
+        var services = new List<Service>();
+        foreach (var serviceId in serviceIds)
+        {
+            var service = await _serviceRepository.GetByIdAsync(serviceId);
+            if (service == null)
+                throw new ArgumentException($"Service with ID {serviceId} not found");
+            services.Add(service);
+        }
+
+        // Calculate total duration (with buffer between services)
+        int totalDuration = services.Sum(s => s.Duration) + ((services.Count - 1) * BufferTimeMinutes);
+        decimal totalPrice = services.Sum(s => s.Price);
+
+        // Get service duration info
+        var serviceDurationInfos = services.Select(s => new ServiceDurationInfo
+        {
+            ServiceId = s.Id,
+            ServiceName = s.Name,
+            DurationMinutes = s.Duration,
+            Price = s.Price
+        }).ToList();
+
+        var slots = new List<MultiServiceSlotDto>();
+
+        if (staffId.HasValue)
+        {
+            // Get slots for specific staff
+            var staffSlots = await CalculateMultiServiceSlotsForStaffAsync(
+                staffId.Value, date, totalDuration, services, serviceDurationInfos, totalPrice);
+            slots.AddRange(staffSlots);
+        }
+        else
+        {
+            // Get available staff who provide ALL services and calculate slots for each
+            var availableStaff = await GetAvailableStaffForMultipleServicesAsync(serviceIds, date);
+            
+            foreach (var staff in availableStaff)
+            {
+                var staffSlots = await CalculateMultiServiceSlotsForStaffAsync(
+                    staff.StaffId, date, totalDuration, services, serviceDurationInfos, totalPrice);
+                slots.AddRange(staffSlots);
+            }
+        }
+
+        return slots.OrderBy(s => s.StartTime);
+    }
+
+    private async Task<List<MultiServiceSlotDto>> CalculateMultiServiceSlotsForStaffAsync(
+        int staffId, 
+        DateTime date, 
+        int totalDuration,
+        List<Service> services,
+        List<ServiceDurationInfo> serviceDurationInfos,
+        decimal totalPrice)
+    {
+        var slots = new List<MultiServiceSlotDto>();
+
+        // Get staff working hours for the requested day
+        var workingHours = await _workingHoursRepository.GetByStaffIdAsync(staffId);
+        var dayWorkingHours = workingHours.FirstOrDefault(wh => wh.DayOfWeek == (int)date.DayOfWeek);
+
+        // If staff doesn't work on this day or is not working, return empty
+        if (dayWorkingHours == null || !dayWorkingHours.IsWorking)
+            return slots;
+
+        // Check if staff has approved leave on this date
+        var leaves = await _leaveRepository.GetByStaffIdAndDateRangeAsync(staffId, date, date);
+        var hasApprovedLeave = leaves.Any();
+
+        if (hasApprovedLeave)
+            return slots;
+
+        // Get existing appointments for this staff on this date
+        var existingAppointments = await _appointmentRepository.GetByStaffIdAndDateAsync(staffId, date);
+        var activeAppointments = existingAppointments
+            .Where(a => a.Status != AppointmentStatus.Cancelled)
+            .ToList();
+
+        // Generate available slots
+        var currentTime = dayWorkingHours.StartTime;
+        var endTime = dayWorkingHours.EndTime;
+        var totalDurationTimeSpan = TimeSpan.FromMinutes(totalDuration);
+
+        // Ensure services fit within working hours
+        var lastPossibleStart = endTime - totalDurationTimeSpan;
+
+        while (currentTime <= lastPossibleStart)
+        {
+            var slotStart = currentTime;
+            var slotEnd = currentTime + totalDurationTimeSpan;
+
+            // Check if slot extends beyond working hours
+            if (slotEnd > endTime)
+                break;
+
+            // Check if slot is in the past (for today)
+            var isPastSlot = date.Date == DateTime.Today && slotStart < DateTime.Now.TimeOfDay;
+
+            // Check for conflicts with existing appointments
+            var isAvailable = !isPastSlot && !IsSlotConflicting(slotStart, slotEnd, activeAppointments);
+
+            slots.Add(new MultiServiceSlotDto
+            {
+                StartTime = date.Date.Add(slotStart),
+                EndTime = date.Date.Add(slotEnd),
+                TotalDurationMinutes = totalDuration,
+                TotalPrice = totalPrice,
+                Services = serviceDurationInfos,
+                IsAvailable = isAvailable
+            });
+
+            // Move to next slot (30-minute intervals)
+            currentTime = currentTime.Add(TimeSpan.FromMinutes(SlotDurationMinutes));
+        }
+
+        return slots;
+    }
+
+    public async Task<IEnumerable<AutoAssignStaffResultDto>> GetAvailableStaffForMultipleServicesAsync(List<int> serviceIds, DateTime date)
+    {
+        if (serviceIds == null || !serviceIds.Any())
+            throw new ArgumentException("At least one service is required");
+
+        // Get all staff who provide ALL the requested services
+        var allStaffServices = await _staffServiceRepository.GetAllAsync();
+        
+        // Group by staff and find those who provide all services
+        var staffWithServices = allStaffServices
+            .GroupBy(ss => ss.StaffId)
+            .Where(g => serviceIds.All(sid => g.Any(ss => ss.ServiceId == sid)))
+            .Select(g => g.Key)
+            .ToList();
+
+        var availableStaff = new List<AutoAssignStaffResultDto>();
+
+        foreach (var staffId in staffWithServices)
+        {
+            // Get staff details
+            var staff = await _staffRepository.GetByIdAsync(staffId);
+            if (staff == null) continue;
+
+            // Get staff working hours for the requested day
+            var workingHours = await _workingHoursRepository.GetByStaffIdAsync(staffId);
+            var dayWorkingHours = workingHours.FirstOrDefault(wh => wh.DayOfWeek == (int)date.DayOfWeek);
+
+            // Skip if staff doesn't work on this day
+            if (dayWorkingHours == null || !dayWorkingHours.IsWorking)
+                continue;
+
+            // Check if staff has approved leave on this date
+            var leaves = await _leaveRepository.GetByStaffIdAndDateRangeAsync(staffId, date, date);
+            var hasApprovedLeave = leaves.Any();
+
+            // Skip if staff has approved leave
+            if (hasApprovedLeave)
+                continue;
+
+            // For multi-service, we just need to know staff is available - slots are calculated separately
+            availableStaff.Add(new AutoAssignStaffResultDto
+            {
+                StaffId = staffId,
+                StaffName = staff.User?.FullName ?? "Unknown",
+                AvailableSlots = new List<BookingSlotDto>(),
+                IsAvailable = true
+            });
+        }
+
+        return availableStaff;
+    }
+
+    public async Task<AppointmentDto> CreateMultiServiceBookingAsync(int customerId, CreateMultiServiceBookingRequest request)
+    {
+        if (request.ServiceIds == null || !request.ServiceIds.Any())
+            throw new ArgumentException("At least one service is required");
+
+        // Validate booking is in future
+        if (request.DateTime < DateTime.UtcNow)
+            throw new ArgumentException("Cannot book appointments in the past");
+
+        // Get all services
+        var services = new List<Service>();
+        foreach (var serviceId in request.ServiceIds)
+        {
+            var service = await _serviceRepository.GetByIdAsync(serviceId);
+            if (service == null)
+                throw new ArgumentException($"Service with ID {serviceId} not found");
+            services.Add(service);
+        }
+
+        // Determine staff
+        int staffId;
+        if (request.PreferredStaffId.HasValue)
+        {
+            staffId = request.PreferredStaffId.Value;
+            var staff = await _staffRepository.GetByIdAsync(staffId);
+            if (staff == null)
+                throw new ArgumentException("Staff not found");
+
+            // Check if staff provides ALL services
+            foreach (var service in services)
+            {
+                var staffProvidesService = staff.StaffServices.Any(ss => ss.ServiceId == service.Id);
+                if (!staffProvidesService)
+                    throw new ArgumentException($"Staff does not provide {service.Name} service");
+            }
+        }
+        else
+        {
+            // Auto-assign: find staff who provides all services and is available
+            var availableStaff = await GetAvailableStaffForMultipleServicesAsync(request.ServiceIds, request.DateTime);
+            if (!availableStaff.Any())
+                throw new ArgumentException("No staff available for these services");
+
+            // For now, pick the first available staff (could be enhanced to pick best fit)
+            staffId = availableStaff.First().StaffId;
+        }
+
+        // Calculate total duration
+        int totalDuration = services.Sum(s => s.Duration) + ((services.Count - 1) * BufferTimeMinutes);
+        decimal totalPrice = services.Sum(s => s.Price);
+
+        // Check working hours
+        var workingHours = await _workingHoursRepository.GetByStaffIdAsync(staffId);
+        var dayWorkingHours = workingHours.FirstOrDefault(wh => 
+            wh.DayOfWeek == (int)request.DateTime.DayOfWeek);
+
+        if (dayWorkingHours == null || !dayWorkingHours.IsWorking)
+            throw new ArgumentException("Staff is not working on this day");
+
+        // Check if within working hours
+        var appointmentTime = request.DateTime.TimeOfDay;
+        var appointmentEndTime = appointmentTime + TimeSpan.FromMinutes(totalDuration);
+
+        if (appointmentTime < dayWorkingHours.StartTime || appointmentEndTime > dayWorkingHours.EndTime)
+            throw new ArgumentException("Appointment time is outside working hours");
+
+        // Check for approved leave
+        var leaves = await _leaveRepository.GetByStaffIdAndDateRangeAsync(
+            staffId, request.DateTime, request.DateTime);
+        var hasApprovedLeave = leaves.Any();
+
+        if (hasApprovedLeave)
+            throw new ArgumentException("Staff is on leave on this date");
+
+        // Check for double booking
+        var existingAppointments = await _appointmentRepository.GetByStaffIdAndDateAsync(
+            staffId, request.DateTime);
+
+        var hasConflict = existingAppointments
+            .Where(a => a.Status != AppointmentStatus.Cancelled)
+            .Any(a => IsSlotConflicting(appointmentTime, appointmentEndTime, 
+                new List<Appointment> { a }));
+
+        if (hasConflict)
+            throw new ArgumentException("Time slot is not available");
+
+        // Create appointment - store primary service as ServiceId and list all services in notes
+        var serviceNames = string.Join(", ", services.Select(s => s.Name));
+        var appointment = new Appointment
+        {
+            CustomerId = customerId,
+            StaffId = staffId,
+            ServiceId = services.First().Id, // Primary service
+            AppointmentDate = request.DateTime.Date,
+            StartTime = appointmentTime,
+            EndTime = appointmentEndTime,
+            Status = AppointmentStatus.Pending,
+            TotalPrice = totalPrice,
+            FinalPrice = totalPrice,
+            Notes = $"Multi-service booking: {serviceNames}. " + (request.Notes ?? ""),
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var createdAppointment = await _appointmentRepository.AddAsync(appointment);
+        
+        // Note: In a full implementation, we would also create AppointmentService records
+        // to track which services are part of this appointment. For now, we store all 
+        // services in the Notes field.
+        
+        // Load related data for response
+        var fullAppointment = await _appointmentRepository.GetByIdAsync(createdAppointment.Id);
+        
+        return MapToDto(fullAppointment!);
+    }
+
+    public async Task<IEnumerable<ServiceDto>> GetAppointmentServicesAsync(int appointmentId)
+    {
+        // This would ideally query the AppointmentService junction table
+        // For now, return the primary service from the appointment
+        var appointment = await _appointmentRepository.GetByIdAsync(appointmentId);
+        if (appointment == null)
+            throw new ArgumentException("Appointment not found");
+
+        // In full implementation, query AppointmentService table
+        // For now, return the single service
+        var service = await _serviceRepository.GetByIdAsync(appointment.ServiceId);
+        if (service == null)
+            return Enumerable.Empty<ServiceDto>();
+
+        return new List<ServiceDto>
+        {
+            new ServiceDto
+            {
+                Id = service.Id,
+                Name = service.Name,
+                Description = service.Description,
+                Duration = service.Duration,
+                Price = service.Price,
+                CategoryId = service.CategoryId,
+                IsActive = service.IsActive
+            }
+        };
+    }
+
     private static AppointmentDto MapToDto(Appointment appointment)
     {
         return new AppointmentDto

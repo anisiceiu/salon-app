@@ -63,6 +63,47 @@ public class BookingsController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Get available slots for multiple services (Public)
+    /// </summary>
+    [HttpGet("multi-service-slots")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<MultiServiceSlotDto>>> GetMultiServiceSlots(
+        [FromQuery] List<int> serviceIds, 
+        [FromQuery] int? staffId, 
+        [FromQuery] DateTime date)
+    {
+        try
+        {
+            var slots = await _bookingService.GetMultiServiceSlotsAsync(serviceIds, staffId, date);
+            return Ok(slots);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Auto-assign staff - get all available staff for multiple services on a specific date (Public)
+    /// </summary>
+    [HttpGet("multi-service-auto-assign")]
+    [AllowAnonymous]
+    public async Task<ActionResult<IEnumerable<AutoAssignStaffResultDto>>> GetAvailableStaffForMultipleServices(
+        [FromQuery] List<int> serviceIds, 
+        [FromQuery] DateTime date)
+    {
+        try
+        {
+            var availableStaff = await _bookingService.GetAvailableStaffForMultipleServicesAsync(serviceIds, date);
+            return Ok(availableStaff);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     // ==================== Customer Endpoints ====================
 
     /// <summary>
@@ -76,6 +117,25 @@ public class BookingsController : ControllerBase
         {
             var customerId = GetCurrentUserId();
             var booking = await _bookingService.CreateBookingAsync(customerId, request);
+            return CreatedAtAction(nameof(GetBooking), new { id = booking.Id }, booking);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
+    /// <summary>
+    /// Create a multi-service booking (Customer, Auth required)
+    /// </summary>
+    [HttpPost("multi")]
+    [Authorize(Roles = "Customer,Staff,Admin")]
+    public async Task<ActionResult<AppointmentDto>> CreateMultiServiceBooking([FromBody] CreateMultiServiceBookingRequest request)
+    {
+        try
+        {
+            var customerId = GetCurrentUserId();
+            var booking = await _bookingService.CreateMultiServiceBookingAsync(customerId, request);
             return CreatedAtAction(nameof(GetBooking), new { id = booking.Id }, booking);
         }
         catch (ArgumentException ex)
@@ -245,6 +305,32 @@ public class BookingsController : ControllerBase
         }
 
         return Ok(booking);
+    }
+
+    /// <summary>
+    /// Get services for a booking (Owner/Staff/Admin)
+    /// </summary>
+    [HttpGet("{id}/services")]
+    [Authorize(Roles = "Customer,Staff,Admin")]
+    public async Task<ActionResult<IEnumerable<ServiceDto>>> GetBookingServices(int id)
+    {
+        var booking = await _bookingService.GetAppointmentByIdAsync(id);
+        
+        if (booking == null)
+            return NotFound(new { message = "Booking not found" });
+
+        var customerId = GetCurrentUserId();
+        var userRole = GetCurrentUserRole();
+
+        // Only allow owner, staff assigned to booking, or admin
+        if (booking.CustomerId != customerId && 
+            (userRole != "Staff" && userRole != "Admin"))
+        {
+            return Forbid();
+        }
+
+        var services = await _bookingService.GetAppointmentServicesAsync(id);
+        return Ok(services);
     }
 
     // ==================== Admin Endpoints ====================

@@ -20,6 +20,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<WorkingHours> WorkingHours => Set<WorkingHours>();
     public DbSet<Leave> Leaves => Set<Leave>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
+    public DbSet<AppointmentService> AppointmentServices => Set<AppointmentService>();
     public DbSet<Discount> Discounts => Set<Discount>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -160,6 +161,22 @@ public class ApplicationDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(e => e.DiscountId)
                 .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        // AppointmentService configuration (Many-to-Many between Appointment and Service)
+        modelBuilder.Entity<AppointmentService>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.Appointment)
+                .WithMany()
+                .HasForeignKey(e => e.AppointmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.Service)
+                .WithMany()
+                .HasForeignKey(e => e.ServiceId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         // Discount configuration

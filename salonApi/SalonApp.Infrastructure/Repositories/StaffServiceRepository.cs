@@ -14,6 +14,16 @@ public class StaffServiceRepository : IStaffServiceRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<StaffService>> GetAllAsync()
+    {
+        return await _context.StaffServices
+            .Include(ss => ss.Staff)
+                .ThenInclude(s => s!.User)
+            .Include(ss => ss.Service)
+                .ThenInclude(s => s!.Category)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<StaffService>> GetByStaffIdAsync(int staffId)
     {
         return await _context.StaffServices
