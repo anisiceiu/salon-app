@@ -49,6 +49,10 @@ export class CustomerBooking {
 
   goToStep(step: number) {
     this.currentStep.set(step);
+    if(step == 2)
+    {
+      this.getStaffs();
+    }
   }
 
   toggleService(service: any) {
@@ -201,7 +205,8 @@ export class CustomerBooking {
   }
 
   getStaffs() {
-    this.staffService.getStaffs().subscribe((data: any) => {
+    let serviceIds = this.selectedServices().map(s => s.id);
+    this.booking.getMultiServiceStaffs(serviceIds,new Date(12,2,2026)).subscribe((data: any) => {
       this.staffs.set(data);
     });
   }
@@ -215,8 +220,8 @@ export class CustomerBooking {
     let serviceIds = this.selectedServices().map(s => s.id);
     const bookingRequest = {
       serviceIds: serviceIds,
-      preferredStaffId: this.selectedStaff(),
-      dateTime: this.selectedSlot().startTime,
+      preferredStaffId: this.selectedStaff() == 0 ? null : this.selectedStaff(),
+      dateTime: this.selectedSlot()?.startTime ?? this.selectedDate(),
       notes: 'Customer prefers senior barber'
     };
 
