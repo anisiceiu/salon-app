@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { CreateStaffRequest } from "../models/CreateStaffRequest";
+import { Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class StaffService {
@@ -12,6 +14,11 @@ export class StaffService {
  getStaffs()
  {
     return this.http.get(`${this.apiUrl}`);
+ }
+
+ getStaffById(id:number)
+ {
+    return this.http.get(`${this.apiUrl}/${id}`);
  }
 
  getServicesByCategoryId(id:number | null)
@@ -59,5 +66,8 @@ formatTime(time: string): string {
    return this.http.delete(`${this.apiUrl}/${id}`);
  }
 
+ createStaff(request: CreateStaffRequest): Observable<any> {
+    return this.http.post<any>(this.apiUrl, request);
+  }
 
 }

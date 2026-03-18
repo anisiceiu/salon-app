@@ -95,6 +95,18 @@ export const routes: Routes = [
             .then(m => m.AdminServices)
       },
       {
+        path: 'admin-staffs',
+        loadComponent: () =>
+          import('./features/staff-list/staff-list')
+            .then(m => m.StaffList)
+      },
+      {
+        path: 'staff/:id',
+        loadComponent: () =>
+          import('./features/staff-details/staff-details')
+            .then(m => m.StaffDetails)
+      },
+      {
         path: 'add-service',
         loadComponent: () =>
           import('./features/services/add-services/add-services')
