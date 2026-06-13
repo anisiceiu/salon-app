@@ -5,5 +5,6 @@ export interface CreateStaffRequest {
   lastName: string;
   phone: string;
   bio: string;
+  isActive: boolean;
   serviceIds: number[];
 }

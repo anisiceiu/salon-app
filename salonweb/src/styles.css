@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --bs-primary: #8B4513;
+    --bs-primary-rgb: 139, 69, 19;
+}

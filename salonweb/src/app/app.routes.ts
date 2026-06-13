@@ -101,6 +101,12 @@ export const routes: Routes = [
             .then(m => m.StaffList)
       },
       {
+        path: 'add-staff',
+        loadComponent: () =>
+          import('./features/add-staff/add-staff')
+            .then(m => m.AddStaff)
+      },
+      {
         path: 'staff/:id',
         loadComponent: () =>
           import('./features/staff-details/staff-details')

@@ -5,7 +5,7 @@
             <h2 class="mb-0">Manage Staff</h2>
             <p class="text-muted mb-0">Add, edit, or manage staff members</p>
         </div>
-        <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#staffModal">
+        <button class="btn btn-primary-custom" routerLink="/add-staff" data-bs-toggle="modal" data-bs-target="#staffModal">
             <i class="fas fa-user-plus me-2"></i>Add Staff
         </button>
     </div>
@@ -64,12 +64,12 @@
         }
         <!-- Add New Staff Card -->
         <div class="col-md-6 col-lg-4">
-            <div class="card-custom d-flex align-items-center justify-content-center" style="min-height: 310px;">
+            <div  class="card-custom d-flex align-items-center justify-content-center" style="min-height: 310px;">
                 <div class="text-center">
                     <i class="fas fa-user-plus text-muted" style="font-size: 3rem;"></i>
                     <h5 class="mt-3">Add New Staff</h5>
                     <p class="text-muted">Click to add a new team member</p>
-                    <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#staffModal">
+                    <button routerLink="/add-staff" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#staffModal">
                         <i class="fas fa-plus me-2"></i>Add Staff
                     </button>
                 </div>

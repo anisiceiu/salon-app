@@ -1,0 +1,154 @@
+<div class="container py-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Add Staff</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form id="staffForm" [formGroup]="staffForm" (ngSubmit)="saveStaff()">
+
+                <!-- Basic Information -->
+                <h5 class="mb-3">Basic Information</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">First Name</label>
+
+                        <input type="text"
+                               class="form-control"
+                               formControlName="firstName"
+                               id="firstName"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Last Name</label>
+
+                        <input type="text"
+                               class="form-control"
+                               formControlName="lastName"
+                               id="lastName"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+
+                        <input type="email"
+                               class="form-control"
+                               formControlName="email"
+                               id="email"
+                               required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone</label>
+
+                        <input type="text"
+                               class="form-control"
+                               formControlName="phone"
+                               id="phone">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select class="form-select" id="isActive" formControlName="isActive">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-12 mb-3">
+
+                        <label class="form-label">
+                            Bio
+                        </label>
+
+                        <textarea class="form-control"
+                                  rows="4"
+                                  formControlName="bio"
+                                  id="bio"></textarea>
+
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input type="password"
+                               class="form-control"
+                               id="password"
+                               formControlName="password">
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- Services -->
+                <h5 class="mb-3">
+                    Assign Services
+                </h5>
+
+                <div class="row" id="servicesContainer">
+
+                    <!-- Dynamic -->
+
+                    <!-- Example -->
+                    <div class="col-md-4 mb-2" *ngFor="let service of services()">
+
+                        <div class="form-check">
+
+                            <input class="form-check-input service-checkbox"
+                                   type="checkbox"
+                                   [value]="service.id"
+                                   [id]="'service' + service.id"
+                                   (change)="onServiceChange($event, service.id)">
+
+                            <label class="form-check-label"
+                                   [for]="'service' + service.id">
+                                {{ service.name }}
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+
+                <div class="mt-4 text-end">
+
+                    <button type="button"
+                            class="btn btn-secondary me-2">
+                        Cancel
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        Save Staff
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
